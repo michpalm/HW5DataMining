@@ -53,10 +53,9 @@ public class Jabeja {
    */
   private void saCoolDown(){
     // TODO for second task
-    if (T > 1)
-      T -= config.getDelta();
-    if (T < 1)
-      T = 1;
+      T *= config.getDelta();
+    if (T < 0.00001)
+      T = 0.00001F;
   }
 
   /**
@@ -116,11 +115,13 @@ public class Jabeja {
       int dpq = getDegree(nodep, nodeq.getColor());
       int dqp = getDegree(nodeq, nodep.getColor());
       double NEW = Math.pow(dpq, alpha) + Math.pow(dqp, alpha);
+      double ap = Math.pow(Math.E,(NEW-old)/T);
+      double ran = (double)RandNoGenerator.nextInt(1000)/(double)1000;
 
-     if((NEW * T > old) && NEW > highestBenefit)
-     {
+     if (ap > ran && ap > highestBenefit)
+      {
         bestPartner = nodeq;
-        highestBenefit = NEW;
+        highestBenefit = ap;
       }
     }
 
