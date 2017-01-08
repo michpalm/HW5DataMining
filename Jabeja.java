@@ -35,18 +35,12 @@ public class Jabeja {
   //-------------------------------------------------------------------
   public void startJabeja() throws IOException {
     for (round = 0; round < config.getRounds(); round++) {
-      if (round%400 == 0)
-        T = 1;
       for (int id : entireGraph.keySet()) {
         sampleAndSwap(id);
       }
 
       //one cycle for all nodes have completed.
       //reduce the temperature
-
-
-      //ran = (double)RandNoGenerator.nextInt(1000)/(double)1000;
-
       saCoolDown();
       report();
     }
@@ -57,17 +51,10 @@ public class Jabeja {
    */
   private void saCoolDown(){
     // TODO for second task
-
-    //if (T > 0.00001)
-      T *= config.getDelta();
-    if (T < 0.00001)
-      T = 0.00001F;
-/*
     if (T > 1)
       T -= config.getDelta();
     if (T < 1)
       T = 1;
-*/
   }
 
   /**
@@ -128,25 +115,11 @@ public class Jabeja {
       int dqp = getDegree(nodeq, nodep.getColor());
       double NEW = Math.pow(dpq, alpha) + Math.pow(dqp, alpha);
 
-
-
-      // check if better
-/*      if((NEW * T > old) && NEW > highestBenefit){
+     if((NEW * T > old) && NEW > highestBenefit)
+     {
         bestPartner = nodeq;
         highestBenefit = NEW;
       }
-*/
-
-
-     double ap = Math.pow(Math.E,(NEW-old)/T);
-     double ran = (double)RandNoGenerator.nextInt(1000)/(double)1000;
-
-     if (ap> ran && ap > highestBenefit)
-      {
-        bestPartner = nodeq;
-        highestBenefit = ap;
-      }
-
     }
 
     return bestPartner;
